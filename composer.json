@@ -1,0 +1,23 @@
+{
+    "name": "douglasresendemaciel/brazilian-documents-validator",
+    "description": "Validator for LARAVEL to validate CPF, CNPJ and CNH",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Douglas Resende Maciel",
+            "email": "eu@douglasresende.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "5.*"
+    },
+    "required-dev" : {
+        "laravel/framework": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DouglasResende\\BrazilianDocumentsValidator\\": "src"
+        }
+    }
+}
