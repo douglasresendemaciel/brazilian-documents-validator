@@ -21,10 +21,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DouglasResende\\BrazilianDocumentsValidator\\BrazilianDocumentProvider"
+                "DouglasResende\\BrazilianDocumentsValidator\\BrazilianDocumentsProvider"
             ],
             "aliases": {
-                "GenerateRandomDocuments": "DouglasResende\\BrazilianDocumentsValidator\\Helpers\\GenerateRandomDocument"
+                "GenerateRandomDocument": "DouglasResende\\BrazilianDocumentsValidator\\Facade\\GenerateRandomDocument"
             }
         }
     }
