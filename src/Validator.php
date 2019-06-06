@@ -103,36 +103,4 @@ class Validator extends BaseValidator
 
         return $ret;
     }
-
-    /**
-     * @return string
-     */
-    protected function generateRandomCnh()
-    {
-        $n1 = rand(0, 9);
-        $n2 = rand(0, 9);
-        $n3 = rand(0, 9);
-        $n4 = rand(0, 9);
-        $n5 = rand(0, 9);
-        $n6 = rand(0, 9);
-        $n7 = rand(0, 9);
-        $n8 = rand(0, 9);
-        $n9 = rand(0, 9);
-        $value = '' . $n1 . $n2 . $n3 . $n4 . $n5 . $n6 . $n7 . $n8 . $n9;
-
-        $dsc = 0;
-        for ($i = 0, $j = 9, $v = 0; $i < 9; ++$i, --$j) {
-            $v += (int)$value[$i] * $j;
-        }
-        if (($vl1 = $v % 11) >= 10) {
-            $vl1 = 0;
-            $dsc = 2;
-        }
-        for ($i = 0, $j = 1, $v = 0; $i < 9; ++$i, ++$j) {
-            $v += (int)$value[$i] * $j;
-        }
-        $vl2 = ($x = ($v % 11)) >= 10 ? 0 : $x - $dsc;
-        $cnhNumber = '' . $value . $vl1 . $vl2;
-        return $cnhNumber;
-    }
 }
