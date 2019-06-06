@@ -51,7 +51,14 @@ OR you can use on RequestValidator files like this:
 ...
 ```
 
-Now is possible create fake document number from this packaged, you just need use the facade 
+Now is possible create fake document number from this packaged, you just need use the facade GenerateRandomDocument
+```php
+use DouglasResende\BrazilianDocumentsValidator\Facade\GenerateRandomDocument;
+
+$cpf = GenerateRandomDocument::generateCPF();
+$cnpj = GenerateRandomDocument::generateCNPJ();
+$cnh = GenerateRandomDocument::generateCNH();
+```
 
 ## Author
 

@@ -34,7 +34,7 @@ class BrazilianDocumentsProvider extends ServiceProvider
      */
     public function register()
     {
-        App::bind('GenerateRandomDocument', function () {
+        App::bind('Ggneraterandomdocument', function () {
             return new GenerateRandomDocument();
         });
     }
