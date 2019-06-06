@@ -2,6 +2,8 @@
 
 namespace DouglasResende\BrazilianDocumentsValidator;
 
+use DouglasResende\BrazilianDocumentsValidator\Helpers\GenerateRandomDocument;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class BrazilianDocumentsProvider extends ServiceProvider
@@ -32,5 +34,8 @@ class BrazilianDocumentsProvider extends ServiceProvider
      */
     public function register()
     {
+        App::bind('GenerateRandomDocument', function () {
+            return new GenerateRandomDocument();
+        });
     }
 }

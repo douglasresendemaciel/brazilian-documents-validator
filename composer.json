@@ -13,11 +13,21 @@
         "illuminate/support": "5.*"
     },
     "required-dev" : {
-        "laravel/framework": "5.*"
+        "laravel/framework": "^5.6.*"
     },
     "autoload": {
         "psr-4": {
             "DouglasResende\\BrazilianDocumentsValidator\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DouglasResende\\BrazilianDocumentsValidator\\BrazilianDocumentProvider"
+            ],
+            "aliases": {
+                "GenerateRandomDocuments": "DouglasResende\\BrazilianDocumentsValidator\\Helpers\\GenerateRandomDocument"
+            }
         }
     }
 }

@@ -18,15 +18,7 @@ or add this to require section in your composer.json file:
 
 then run ```composer update```
 
-Once it is installed, you need to register the service provider. 
-Open up config/app.php and add the following to the providers key.
-
-```php
-'providers' => [
-...
-DouglasResende\BrazilianDocumentsValidator\BrazilianDocumentsProvider::class
-...
-```
+Once it is installed, you do not need anymore to register in the service provider, the package will be load automatically.
 
 ## Usage
 
@@ -58,6 +50,8 @@ OR you can use on RequestValidator files like this:
 'cpf' => 'required|cpf',
 ...
 ```
+
+Now is possible create fake document number from this packaged, you just need use the facade 
 
 ## Author
 
