@@ -22,6 +22,10 @@ class BrazilianDocumentsProvider extends ServiceProvider
                 'cnh' => trans('documents::validator.cnh'),
                 'cnpj' => trans('documents::validator.cnpj'),
                 'cpf' => trans('documents::validator.cpf'),
+                'titulo_eleitor' => trans('documents::validator.titulo_eleitor'),
+                'nis' => trans('documents::validator.nis'),
+                'cns' => trans('documents::validator.cns'),
+                'certidao' => trans('documents::validator.certidao'),
             ];
             return new Validator($translator, $data, $rules, $messages);
         });

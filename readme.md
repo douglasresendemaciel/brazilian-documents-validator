@@ -1,6 +1,6 @@
-# Validator for LARAVEL to validate CPF, CNPJ and CNH
+# Validator for LARAVEL to validate BRAZILIAN DOCUMENTS
 
-This library validate CPF, CNPJ and CNH numbers
+This library validate CPF, CNPJ, CNH, TÍTULO DE ELEITOR, NÚMERO DE IDENTIFICAÇÃO SOCIAL, CARTÃO NACIONAL DE SAÚDE, CERTIDÃO (NASCIMENTO/CASAMENTO/ÓBITO)  numbers
 
 ## Installation
 
@@ -25,21 +25,49 @@ Once it is installed, you do not need anymore to register in the service provide
 * cnpj - Check if the CNPJ number is valid
 ```php
 $this->validate($request, [
-    'cnpj' => 'required|cnpj',
+    'field_name' => 'required|cnpj',
 ]);
 ```
 
 * cpf - Check if the CPF number is valid
 ```php
 $this->validate($request, [
-    'cpf' => 'required|cpf',
+    'field_name' => 'required|cpf',
 ]);
 ```
 
 * cnh - Check if the CNH number is valid
 ```php
 $this->validate($request, [
-    'cnh' => 'required|cnh',
+    'field_name' => 'required|cnh',
+]);
+```
+
+* título de eleitor - Check if the TÍTULO DE ELEITOR number is valid
+```php
+$this->validate($request, [
+    'field_name' => 'required|titulo_eleitor',
+]);
+```
+
+* número de identificação social - Check if the NÚMERO DE IDENTIFICAÇÃO SOCIAL number is valid
+```php
+$this->validate($request, [
+    'field_name' => 'required|nis',
+]);
+```
+
+* cartão nacional de saúde - Check if the CARTÃO NACIONAL DE SAÚDE number is valid
+```php
+$this->validate($request, [
+    'field_name' => 'required|cns',
+]);
+```
+
+* certidão - Check if the CERTIDÃO number is valid
+```php
+$this->validate($request, [
+    'field_name' => 'required|certidao',
 ]);
 ```
 
@@ -47,7 +75,7 @@ OR you can use on RequestValidator files like this:
 ```php
 'rules' => [
 ...
-'cpf' => 'required|cpf',
+'field_name' => 'required|cpf',
 ...
 ```
 

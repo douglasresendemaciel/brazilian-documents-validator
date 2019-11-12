@@ -4,6 +4,10 @@ namespace DouglasResende\BrazilianDocumentsValidator;
 
 use Illuminate\Validation\Validator as BaseValidator;
 
+/**
+ * Class Validator
+ * @package DouglasResende\BrazilianDocumentsValidator
+ */
 class Validator extends BaseValidator
 {
     /**
@@ -105,34 +109,154 @@ class Validator extends BaseValidator
     }
 
     /**
-     * @return string
+     * Valida se o Título de Eleitor é válido
+     * @param $attribute
+     * @param $value
+     * @return bool
      */
-    protected function generateRandomCnh()
+    protected function validateTituloEleitor($attribute, $value): bool
     {
-        $n1 = rand(0, 9);
-        $n2 = rand(0, 9);
-        $n3 = rand(0, 9);
-        $n4 = rand(0, 9);
-        $n5 = rand(0, 9);
-        $n6 = rand(0, 9);
-        $n7 = rand(0, 9);
-        $n8 = rand(0, 9);
-        $n9 = rand(0, 9);
-        $value = '' . $n1 . $n2 . $n3 . $n4 . $n5 . $n6 . $n7 . $n8 . $n9;
+        $state = substr($value, -4, 2);
 
-        $dsc = 0;
-        for ($i = 0, $j = 9, $v = 0; $i < 9; ++$i, --$j) {
-            $v += (int)$value[$i] * $j;
+        if (((mb_strlen($value) < 5) || (mb_strlen($value) > 13)) ||
+            (str_repeat($value[1], mb_strlen($value)) == $value) ||
+            ($state < 1 || $state > 28)) {
+            return false;
         }
-        if (($vl1 = $v % 11) >= 10) {
-            $vl1 = 0;
-            $dsc = 2;
+
+        $dv = substr($value, -2);
+
+        $base = 2;
+
+        $sequence = substr($value, 0, -4);
+
+        for ($i = 0; $i < 2; $i++) {
+
+            $factor = 9;
+            $sum = 0;
+
+            for ($j = (mb_strlen($sequence) - 1); $j > -1; $j--) {
+                $sum += $sequence[$j] * $factor;
+
+                if ($factor == $base) {
+                    $factor = 10;
+                }
+
+                $factor--;
+            }
+
+            $digit = $sum % 11;
+
+            if (($digit == 0) and ($state < 3)) {
+                $digit = 1;
+            } elseif ($digit == 10) {
+                $digit = 0;
+            }
+
+            if ($dv[$i] != $digit) {
+                return false;
+            }
+
+            switch ($i) {
+                case '0':
+                    $sequence = $state . $digit;
+                    break;
+            }
         }
-        for ($i = 0, $j = 1, $v = 0; $i < 9; ++$i, ++$j) {
-            $v += (int)$value[$i] * $j;
+        return true;
+    }
+
+    /**
+     * Valida se o NIS é válido (PIS/PASEP/NIT/NIS)
+     * @param $attribute
+     * @param $value
+     * @return bool
+     */
+    protected function validateNis($attribute, $value): bool
+    {
+        $nis = sprintf('%011s', $value);
+
+        if (mb_strlen($nis) != 11 || preg_match("/^{$nis[0]}{11}$/", $nis)) {
+            return false;
         }
-        $vl2 = ($x = ($v % 11)) >= 10 ? 0 : $x - $dsc;
-        $cnhNumber = '' . $value . $vl1 . $vl2;
-        return $cnhNumber;
+
+        for ($d = 0, $p = 2, $c = 9; $c >= 0; $c--, ($p < 9) ? $p++ : $p = 2) {
+            $d += $nis[$c] * $p;
+        }
+
+        return ($nis[10] == (((10 * $d) % 11) % 10));
+    }
+
+    /**
+     * Valida se o CNS é válido (Cartão Ncional de Saúde)
+     * @param $attribute
+     * @param $value
+     * @return bool
+     */
+    protected function validateCns($attribute, $value): bool
+    {
+        // códigos definitivos iniciam em 1 ou 2 / códigos provisórios iniciam em 7, 8 ou 9
+        if (preg_match("/[1-2][0-9]{10}00[0-1][0-9]/", $value) || preg_match("/[7-9][0-9]{14}/", $value)) {
+
+            $sum = 0;
+
+            for ($i = 0; $i < mb_strlen($value); $i++) {
+                $sum += $value[$i] * (15 - $i);
+            }
+
+            return $sum % 11 == 0;
+        }
+        return false;
+    }
+
+    /**
+     * Valida se a CERTIDÃO é válida (nascimento, casamento, óbito)
+     * @param $attribute
+     * @param $value
+     * @return bool
+     */
+    protected function validateCertidao($attribute, $value): bool
+    {
+        if (!preg_match("/[0-9]{32}/", $value)) {
+            return false;
+        }
+
+        $num = substr($value, 0, -2);
+
+        $dv = substr($value, -2);
+
+        $dv1 = $this->weightedSumCertidao($num) % 11;
+
+        $dv1 = $dv1 > 9 ? 1 : $dv1;
+
+        $dv2 = $this->weightedSumCertidao($num.$dv1) % 11;
+
+        $dv2 = $dv2 > 9 ? 1 : $dv2;
+
+        // Compara o dv recebido com os dois numeros calculados
+        if ($dv === $dv1.$dv2) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $value
+     * @return int
+     */
+    private function weightedSumCertidao($value): int
+    {
+        $sum = 0;
+
+        $multiplier = 32 - mb_strlen($value);
+
+        for ($i = 0; $i < mb_strlen($value); $i++) {
+            $sum += $value[$i] * $multiplier;
+            $multiplier += 1;
+            $multiplier = $multiplier > 10 ? 0 : $multiplier;
+        }
+
+        return $sum;
     }
 }
