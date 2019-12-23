@@ -15,13 +15,13 @@ class BrazilianDocumentsProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'documents');
 
-        $this->app['validator']->resolver(function ($translator, $data, $rules, $messages, $customMessages) {
+        $this->app['validator']->resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
             $messages += [
                 'cnh' => trans('documents::validator.cnh'),
                 'cnpj' => trans('documents::validator.cnpj'),
                 'cpf' => trans('documents::validator.cpf'),
             ];
-            return new Validator($translator, $data, $rules, $messages, $customMessages);
+            return new Validator($translator, $data, $rules, $messages, $customAttributes);
         });
     }
 
