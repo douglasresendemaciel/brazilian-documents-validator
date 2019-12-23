@@ -17,7 +17,7 @@ class BrazilianDocumentsProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'documents');
 
-        $this->app['validator']->resolver(function ($translator, $data, $rules, $messages) {
+        $this->app['validator']->resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
             $messages += [
                 'cnh' => trans('documents::validator.cnh'),
                 'cnpj' => trans('documents::validator.cnpj'),
@@ -27,7 +27,7 @@ class BrazilianDocumentsProvider extends ServiceProvider
                 'cns' => trans('documents::validator.cns'),
                 'certidao' => trans('documents::validator.certidao'),
             ];
-            return new Validator($translator, $data, $rules, $messages);
+            return new Validator($translator, $data, $rules, $messages, $customAttributes);
         });
     }
 
