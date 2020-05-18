@@ -99,4 +99,4 @@ Douglas Resende: [http://www.douglasresende.com/](http://www.douglasresende.com/
 
 ## References
 
-For more information read the official documentation at [https://laravel.com/docs/5.4/](https://laravel.com/docs/5.4/)
+For more information read the official documentation at [https://laravel.com/docs/](https://laravel.com/docs/)
